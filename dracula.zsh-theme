@@ -10,12 +10,17 @@
 # http://zenorocha.mit-license.org
 #
 # @author Zeno Rocha <hi@zenorocha.com>
+#
+# Customized by @billdodd:
+#   - commented out async and GIT stuff
+#   - added '$' to end of prompt
+#
 
 # Initialization {{{
-source ${0:A:h}/lib/async.zsh
+# source ${0:A:h}/lib/async.zsh
 autoload -Uz add-zsh-hook
 setopt PROMPT_SUBST
-async_init
+# async_init
 # }}}
 
 # Options {{{
@@ -53,7 +58,7 @@ dracula_test_git_optional_lock() {
 }
 
 # use --no-optional-locks flag on git
-DRACULA_GIT_NOLOCK=${DRACULA_GIT_NOLOCK:-$(dracula_test_git_optional_lock)}
+# DRACULA_GIT_NOLOCK=${DRACULA_GIT_NOLOCK:-$(dracula_test_git_optional_lock)}
 # }}}
 
 # Status segment {{{
@@ -94,7 +99,7 @@ PROMPT+='%F{magenta}%B$(dracula_context)'
 # }}}
 
 # Directory segment {{{
-PROMPT+='%F{blue}%B%c '
+PROMPT+='%F{blue}%B%c$ '
 # }}}
 
 # Async git segment {{{
@@ -132,28 +137,28 @@ dracula_git_status() {
   fi
 }
 
-dracula_git_callback() {
-  DRACULA_GIT_STATUS="$3"
-  zle && zle reset-prompt
-  async_stop_worker dracula_git_worker dracula_git_status "$(pwd)"
-}
+# dracula_git_callback() {
+#   DRACULA_GIT_STATUS="$3"
+#   zle && zle reset-prompt
+#   async_stop_worker dracula_git_worker dracula_git_status "$(pwd)"
+# }
 
-dracula_git_async() {
-  async_start_worker dracula_git_worker -n
-  async_register_callback dracula_git_worker dracula_git_callback
-  async_job dracula_git_worker dracula_git_status "$(pwd)"
-}
+# dracula_git_async() {
+#   async_start_worker dracula_git_worker -n
+#   async_register_callback dracula_git_worker dracula_git_callback
+#   async_job dracula_git_worker dracula_git_status "$(pwd)"
+# }
 
-precmd() {
-  dracula_git_async
-}
+# precmd() {
+#   dracula_git_async
+# }
 
-PROMPT+='$DRACULA_GIT_STATUS'
+# PROMPT+='$DRACULA_GIT_STATUS'
 
-ZSH_THEME_GIT_PROMPT_CLEAN=") %F{green}%B✔ "
-ZSH_THEME_GIT_PROMPT_DIRTY=") %F{yellow}%B✗ "
-ZSH_THEME_GIT_PROMPT_PREFIX="%F{cyan}%B("
-ZSH_THEME_GIT_PROMPT_SUFFIX="%f%b"
+# ZSH_THEME_GIT_PROMPT_CLEAN=") %F{green}%B✔ "
+# ZSH_THEME_GIT_PROMPT_DIRTY=") %F{yellow}%B✗ "
+# ZSH_THEME_GIT_PROMPT_PREFIX="%F{cyan}%B("
+# ZSH_THEME_GIT_PROMPT_SUFFIX="%f%b"
 # }}}
 
 # Ensure effects are reset
